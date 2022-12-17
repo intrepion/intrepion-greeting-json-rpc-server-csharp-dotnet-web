@@ -1,9 +1,10 @@
+using System.Text;
+
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
 var ClientUrl = Environment.GetEnvironmentVariable("CLIENT_URL") ?? "http://localhost:5193";
-Console.WriteLine($"Client URL: {ClientUrl}");
 
 builder.Services.AddCors(options =>
 {
@@ -20,12 +21,20 @@ var app = builder.Build();
 
 app.UseCors(MyAllowSpecificOrigins);
 
-app.MapGet("/", () => $"Client URL: <a href=\"{ClientUrl}\">{ClientUrl}</a>\n\nHello World!");
+var text = $$"""
+Client URL: <a href="{{ClientUrl}}">{{ClientUrl}}</a>
+
+Hello, World!
+""";
+
+Console.WriteLine(text);
+
+app.MapGet("/", () => text);
 app.MapPost("/", async context => {
     var request = await context.Request.ReadFromJsonAsync<JsonRpcRequest>();
     var Id = request?.Id ?? "";
     var Jsonrpc = request?.Jsonrpc ?? "";
-    var Name = request?.Params?.Name ?? "World";
+    var Name = request?.Params.Name ?? "World";
     var response = new JsonRpcResponse {
         Id = Id,
         Jsonrpc = Jsonrpc,

@@ -1,7 +1,7 @@
 public class JsonRpcRequest
 {
-    public string? Id { get; set; }
-    public string? Jsonrpc { get; set; }
-    public string? Method { get; set; }
-    public JsonRpcParams? Params { get; set; }
+    public required string Id { get; set; }
+    public required string Jsonrpc { get; set; }
+    public required string Method { get; set; }
+    public required JsonRpcParams Params { get; set; }
 }
