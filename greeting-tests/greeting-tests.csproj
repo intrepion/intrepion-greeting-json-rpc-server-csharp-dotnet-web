@@ -22,4 +22,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\greeting\greeting.csproj" />
+  </ItemGroup>
+
 </Project>
