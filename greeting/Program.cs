@@ -34,12 +34,13 @@ app.MapPost("/", async context => {
     var request = await context.Request.ReadFromJsonAsync<JsonRpcRequest>();
     var Id = request?.Id ?? "";
     var Jsonrpc = request?.Jsonrpc ?? "";
-    var Name = request?.Params.Name ?? "World";
+    var Name = request?.Params.Name ?? "";
+    var Greeting = Greeter.Greet(Name);
     var response = new JsonRpcResponse {
         Id = Id,
         Jsonrpc = Jsonrpc,
         Result = new JsonRpcResult {
-            Greeting = $"Hello, {Name}!"
+            Greeting = Greeting
         }
     };
     await context.Response.WriteAsJsonAsync(response);
